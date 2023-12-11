@@ -1,0 +1,273 @@
+{% extends 'layout.html'%}
+
+{% block title %}New Service{% endblock %}
+
+{% block content %}
+<div id="page-content-wrapper">
+    <div class="table-responsive div-border-table">
+        <form action="/addService/loaded" method="GET" id="form">
+            <table class="table table-condensed table-striped table-bg-light">
+                <thead class="th-shaded">
+                    <tr>
+                        <th colspan="3">CUSTOMER INFO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center">
+                            <label for="customerNameSelect" style="margin-right: 15px;"><b>Customer: </b></label>
+                            <input style="width: 250px; margin-right: 15px; display: inline;" type="text" id="customerNameSelect" name="custName" class="form-control input-sm" value="{{ customerNames }}" />
+                            <ul id="suggestion"></ul>
+                            <button type="submit" class="btn-weinig-b4">Search</button>
+                        </td>
+                        <td align="center" data-cid="{{ customerNumber }}" id="customer"><b>Customer Number: {{ customerNumber }}</b></td>
+                        <td align="center"><b>Tips: {{ tips }}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="table-responsive div-border-table">
+        <table class="table table-condensed table-striped table-bg-light">
+            <thead class="th-shaded">
+                <tr>
+                    <th colspan="1">COMMENTS</th>
+                    <th colspan="1" id="comment"><button class="mini" id="miniComment"></button></th>
+                </tr>
+            </thead>
+            <tbody id="commentList">
+                <tr>
+                    <th>Date</th>
+                    <th>Comment</th>
+                </tr>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row['Date'] }}</td>
+                    <td>{{ row['comments'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="table-responsive div-border-table">
+        <form style="width: fit-content">
+            <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0">
+                <thead class="th-shaded">
+                    <tr>
+                        <th colspan="8">NEW SERVICE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Qty</th>
+                        <th>Service</th>
+                        <th>Profile Name</th>
+                        <th>Num. of Knives</th>
+                        <th>Width</th>
+                        <th>Length</th>
+                        <th>Head Position</th>
+                        <th>Water Jet</th>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="qtyText" name="qtyText" class="newService" style="width: 175px;"></td>
+                        <td><input type="text" id="serviceText" name="serviceText" class="newService" /></td>
+                        <td><input type="text" id="custDescText" name="custDescText" class="newService" style="width: 650px"></td>
+                        <td><input type="text" id="numKnifeText" name="numKnifeText" class="newService" style="width: 150px"></td>
+                        <td><input type="text" id="widthText" name="widthText" class="newService" style="width: 100px"></td>
+                        <td><input type="text" id="lengthText" name="lengthText" class="newService" style="width: 100px"></td>
+                        <td>
+                            <select id="serviceSelect" name="serviceSelect" class="form-control input-sm newService" style="width: 120px">
+                                <option></option>
+                                {% for positions in headPositions %}
+                                <option value="{{ positions['id']|int }}">{{ positions['Desc'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td><input type="checkbox" id="wjCheckBox" name="wjCheckBox" class="newService"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-condensed table-striped table-bg-light">
+                <colgroup>
+                    <col span="1" style="width: 1%">
+                    <col span="1" style="width: 1%">
+                    <col span="1" style="width: 96%">
+                    <col span="1" style="width: 1%">
+                    <col span="1" style="width: 1%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th><b>Date</b></th>
+                        <th><b>Scheduled Date</b></th>
+                        <th><b>Comment</b></th>
+                        <th><b>Placed By </b></th>
+                        <th><b>Processed By</b></th>
+                    </tr>
+                    <tr>
+                        <td><input type="date" id="todayDate" name="todayDate" class="newService" /></td>
+                        <td><input type="date" id="shipDate" name="shipDate" class="newService" /></td>
+                        <td><input type="text" id="serviceComment" name="serviceComment" class="newService" style="width: 100%"></td>
+                        <td><input type="text" id="placedText" name="placedText" class="newService" /></td>
+                        {% if user != False %}
+                        <td><input type="text" id="processedText" name="processedText" class="newService" value="{{ user['FirstName'] }}, {{ user['LastName'][0] }}" /></td>
+                        {% else %}
+                        <td><input type="text" id="processedText" name="processedText" class="newService" /></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td><button type="button" id="addServiceBtn" class="btn-weinig-b4">Add Service</button></td>
+                        <td colspan="7"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="table-responsive div-border-table">
+        <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0;">
+            <thead class="th-shaded">
+                <tr style="border-bottom: none;">
+                    <th colspan="6">New Services</th>
+                    <th colspan="5" id="comment"><button class="mini" id="miniNewService" style="right: 3%; top: 40%;"></button></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="table-responsive div-border-table newServiceContainer">
+        <form>
+            <table class="table table-condensed table-striped table-bg-light tableCorrect">
+                <thead class="th-shaded" style="position: sticky; top:0;">
+                    <th></th>
+                    <th>Qty</th>
+                    <th>Service</th>
+                    <th>Profile Name</th>
+                    <th>Num. of Knives</th>
+                    <th>Width</th>
+                    <th>Length</th>
+                    <th>Head Position</th>
+                    <th>WaterJet</th>
+                </thead>
+                <tbody id="newServiceList" class="renNewService"></tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="table-responsive div-border-table">
+        <table class="table table-condensed table-striped table-bg-light" style="margin-bottom:0;">
+            <thead class="th-shaded">
+                <tr style="border-bottom:none">
+                    <th colspan="6">SERVICE LIST</th>
+                    <th colspan="5" id="comment"><button class="mini" id="miniService" style="right:3%; top:40%;"></button></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="table-responsive div-border-table serviceContainer">
+        <table class="table table-condensed table-striped table-bg-light tableCorrect">
+            <thead class="th-shaded" style="position: sticky; top:0;">
+                <tr style="border-top: none">
+                    <th></th>
+                    <th>Date Ordered</th>
+                    <th>Date Shipped</th>
+                    <th>Number of Templates</th>
+                    <th>Placed By</th>
+                    <th>Taken By</th>
+                </tr>
+            </thead>
+            <!--redo list to match new services-->
+            <tbody id="serviceList">
+                {% for row in previousServiceList %}
+                <tr  data-id="{{ row['CustomerServiceID'] }}">
+                    <td><button data-id="{{ row['CustomerServiceID'] }}">Delete</button></td>
+                    <td>{{ row['date'] }}</td>
+                    <td>{{ row['ShipDate'] }}</td>
+                    <td>{{ row['NumTemplates'] }}</td>
+                    <td>{{ row['orderplacedbyid'] }}</td>
+                    <td>{{ user['FirstName'] }}, {{ user['LastName'][0] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="table-responsive div-border-table">
+        <table class="table table-condensed table-striped table-bg-light">
+            <thead class="th-shaded">
+                <tr>
+                    <th colspan="6">TECHNICAL INFO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 175px" align="right"><b>Number of Templates: </b></td>
+                    <td style="width: 175px"><input style="width: 250px" type="text" id="numTemplateText" class="newService"></td>
+                    <td style="width: 175px" align="right"><b>Knife Material: </b></td>
+                    <td>
+                        <select  id="knifeMaterialSelect" name="knifeMaterialSelect" class="form-control input-sm newService">
+                            {% if nonSearch %}
+                            <option value="{{ technicalInfo['KnifeMaterialID'] }}">{{ technicalInfo['KnifeMaterialDesc'] }}</option>
+                            {% endif %}
+                            {% for material in knifeMaterial %}
+                            <option value="{{ material['id'] }}">{{ material['Desc'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 175px" align="right"><b>Cutterhead: </b></td>
+                    <td>
+                        <select  id="cutterHeadSelect" name="cutterHeadSelect" class="form-control input-sm newService">
+                            {% if nonSearch %}
+                            <option value="{{ technicalInfo['CutterheadID'] }}">{{ technicalInfo['CutterheadDesc'] }}</option>
+                            {% endif %}
+                            {% for head in cutterHead %}
+                            <option value="{{ head['id'] }}">{{ head['Desc'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 175px" align="right"><b>Hook Angle: </b></td>
+                    <td>
+                        <select style="width: 250px" id="hookAngleSelect" name="hookAngle" class="form-control input-sm newService">
+                            {% if nonSearch %}
+                            <option value="{{ technicalInfo['HookAngleID'] }}">{{ technicalInfo['HookAngleDesc'] }}</option>
+                            {% endif %}
+                            {% for angle in hookAngles %}
+                            <option value="{{ angle['id'] }}">{{ angle['Desc'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 175px" align="right"><b>Back Clearance: </b></td>
+                    <td>
+                        <select  id="backClearanceSelect" name="backClearanceSelect" class="form-control input-sm newService">
+                            {% if nonSearch %}
+                            <option value="{{ technicalInfo['BackClearanceID'] }}">{{ technicalInfo['BackClearanceDesc'] }}</option>
+                            {% endif %}
+                            {% for clearance in backClearance %}
+                            <option value="{{ clearance['id'] }}">{{ clearance['Desc'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td style="width: 175px" align="right"><b>Number of Knives: </b></td>
+                    <td>
+                        <select  id="techNumKnivesSelect" name="techNumKnivesSelect" class="form-control input-sm newService">
+                            {% if nonSearch %}
+                            <option value="{{ technicalInfo['NumKnivesPerHeadID'] }}">{{ technicalInfo['NumKnivesPerHeadDesc'] }}</option>
+                            {% endif %}
+                            {% for knife in tNumKnives %}
+                            <option value="{{ knife['id'] }}">{{ knife['Desc'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button id="printBtn" class="btn-weinig-b4">Print</button>
+    <button id="clearBtn" class="btn-weinig-666">Clear</button>
+</div>
+<script src="{{ url_for('static', filename='scripts/minimize.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/new-service.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/searchbar.js') }}"></script>
+{% endblock %}

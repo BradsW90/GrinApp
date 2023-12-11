@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div style="margin: 10px; font-family:Calibri;">
+    <h2 align="center">
+        <b>
+            <u>Grinding Work Order</u>
+        </b>
+    </h2>
+    <br>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Date: {{ service['date'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Ship On: {{ service['ShipDate'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Drawn By: {{ service['FirstName'] }}, {{ service['LastName'][0] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Customer: {{ service['CustomerName'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>No. of templates: {{ service['NumTemplates'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Knife Material: {{ service['KnifeMaterialDesc'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Cutterhead Diameter: {{ service['CutterheadDesc'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Hook angle to grind at: {{ service['HookAngleDesc'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>Back Clearances Angles: {{ service['BackClearanceDesc'] }}</b>
+    </p>
+</div>
+<div style="display: flex; align-items: center">
+    <p>
+        <b>No. knives per head: {{ service['NumKnivesPerHeadDesc'] }}</b>
+    </p>
+</div>
+<br>
+<table>
+     <colgroup>
+        <col span="1" style="width: 1%">
+        <col span="1" style="width: 1%">
+        <col span="1" style="width: 93%">
+        <col span="1" style="width: 1%">
+        <col span="1" style="width: 1%">
+        <col span="1" style="width: 1%">
+        <col span="1" style="width: 1%">
+        <col span="1" style="width: 1%">
+    </colgroup>
+    <thead >
+        <tr>
+            <th style="text-align: center">Qty</th>
+            <th style="text-align: center">Service</th>
+            <th style="text-align: center">Profile Name</th>
+            <th style="text-align: center">Num. of Knives</th>
+            <th style="text-align: center">Width</th>
+            <th style="text-align: center">Length</th>
+            <th style="text-align: center">Head Position</th>
+            <th style="text-align: center">WaterJet</th>
+        </tr>
+    </thead>
+    <tbody style="border: 1px solid" align="center">
+        {% for row in details %}
+        <tr style="border: 1px solid">
+            <td style="border: 1px solid; width: 175px">{{ row['Quantity'] }}</td>
+            <td style="border: 1px solid; width: 100px">{{ row['CustomTemplateDesc'] }}</td>
+            <td style="border: 1px solid; width: 650px">{{ row['Note'] }}</td>
+            <td style="border: 1px solid; width: 150px">{{ row['NumKnives'] }}</td>
+            <td style="border: 1px solid; width: 100px">{{ row['Width'] }}</td>
+            <td style="border: 1px solid; width: 100px">{{ row['Length'] }}</td>
+            <td style="border: 1px solid; width: 120px">{{ row['HeadPositionDesc'] }}</td>
+            <td style="border: 1px solid; width: 100px">{{ row['Waterjet'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<p>Comments: <span style="margin-left:5px;">{{ service['comments'] }}</span></p>
+</div>
+{% endblock %}

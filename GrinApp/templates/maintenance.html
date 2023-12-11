@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Maintenance</h2>
+<hr />
+<div style="display: flex">
+<h4>Users</h4><a href="/logout">Logout</a>
+</div>
+<hr />
+{% for data in post %}
+<div>
+    <label>{{ data['Username'] }}</label>
+    <a href="/maintenance/{{data['UserID']}}/edit">Edit</a>
+</div>
+{% endfor %}
+<hr />
+<form action="/maintenance/{{row['UserID']}}" method="post">
+    <label for="username">Username:</label>
+    <input name="username" id="username" value="{{ request.form['username'] or row['Username'] }}" required/>
+    <label for="password">Password:</label>
+    <input name="password" id="password" value="{{ request.form['password'] or row['Password'] }}" required/>
+    <input type="submit" value="Update User" />
+</form>
+{% endblock %}

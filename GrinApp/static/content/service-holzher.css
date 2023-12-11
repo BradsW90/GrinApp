@@ -1,0 +1,210 @@
+.btn-weinig-666 {
+    color:#fff;
+    background-color: #666;
+}
+
+.btn-weinig-666:hover {
+    color:#f60;
+}
+
+.btn-weinig-666:focus {
+    color:#f60;
+}
+
+.btn-weinig-666-evnt {
+    color:#fff;
+    background-color: #666;
+}
+
+.btn-weinig-666-evnt:hover {
+    color:#fff;
+    background-color: #f60;
+}
+
+.input-weinig-666 {
+    border:1px solid #666;
+}
+
+.input-weinig-666:focus {
+    border-color: #b4b4b4;
+    box-shadow: 0 0 0 #b4b4b4 inset, 0 0 0 #b4b4b4;
+    outline: 0 none;
+}
+
+.input-weinig-grn:focus {
+    border-color: #f60;
+    box-shadow: 0 0 0 #f60 inset, 0 0 0 #f60;
+    outline: 0 none;
+}
+
+.a-weinig-666 {
+    color:#666;
+    text-decoration: none;
+    cursor:pointer;
+}
+
+.a-weinig-666:hover {
+    color:#f60;
+    text-decoration: none;
+    cursor:pointer;
+}
+
+.btn-weinig-b4 {
+    color:#333;
+    background-color: #b4b4b4;
+}
+
+.btn-weinig-b4:hover {
+    color:#fff;
+    background-color: #f60;
+}
+
+
+.alert-weinig {
+    color:#ed1c24;
+    background-color: #fbd1d3;
+    border-color: #f26065;
+}
+
+.top-banner {
+    color:#f60;
+    background-color: #ffe0cc;
+    border-color: #ff934c;
+}
+
+.action-icon {
+    cursor: pointer;
+}
+
+.action-icon:hover {
+    color:#666;
+}
+
+.radio {
+    margin-top:0;
+    margin-bottom: 0;
+}
+
+.checkbox {
+    margin-top:0;
+    margin-bottom: 0;
+}
+
+td a {
+    color:#f60;
+    font-weight: bold;
+}
+
+td a:hover {
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+td a:focus {
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.div-border {
+    border: 1px solid #666;
+    border-radius: 4px;
+}
+
+.div-panel {
+    padding:7px 15px;
+    margin-bottom:20px;
+    background-color: #d2d2d2;
+}
+
+.th-shaded {
+    background-color: #666;
+    color: #fff;
+}
+
+.dark-link {
+    color:#333;
+    font-weight: bold;
+}
+
+.dark-link:hover {
+    color: #f60;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.dark-link:focus {
+    color: #f60;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.colored-link {
+    color:#f60;
+    font-weight: bold;
+}
+
+.colored-link-lite {
+    color: #ff6600;
+}
+
+.colored-link-lite:hover {
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.colored-link-lite:focus {
+    color: #666;
+    text-decoration: none;
+}
+
+.light-link {
+    color:#fff;
+    font-weight: bold;
+}
+
+.light-link:hover {
+    color: #f60;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.light-link:focus {
+    color: #f60;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.colored-link:hover {
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.colored-link:focus {
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.summary-problem {
+    cursor: pointer;
+    color: #f60;
+    font-weight: 500;
+}
+
+.summary-span {
+    font-style: italic;
+    color:#666;
+}
+
+.summary-issue {
+    font-style: italic;
+    color:#e78f1f;
+}
+
+.comp-color {
+    color:#f60;
+}

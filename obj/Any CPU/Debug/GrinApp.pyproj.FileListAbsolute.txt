@@ -1,0 +1,2 @@
+C:\Users\Scott Woodle\OneDrive - Weinig Group\Documents - MC USA Information Systems\IT Sharepoint\GrinApp Project\GrinApp\GrinApp\obj\Any CPU\Debug\GrinApp.pyproj.SuggestedBindingRedirects.cache
+C:\Users\Scott Woodle\OneDrive - Weinig Group\Documents - MC USA Information Systems\IT Sharepoint\GrinApp Project\GrinApp\GrinApp\obj\Any CPU\Debug\GrinApp.pyproj.CoreCompileInputs.cache

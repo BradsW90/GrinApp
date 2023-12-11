@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {{ title }} {% endblock %} - GrinApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap-datetimepicker.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap-multiselect.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/fileinput.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/GrinStyle.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/pdf-form.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/sb-admin.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/scheduling.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/service.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/service-global.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/service-holzher.css') }}" />
+    <script src="/static/scripts/modernizr-2.6.2.js"></script>
+</head>
+
+<body>
+    {% if not rendering %}
+    {% else %}
+    <ul class="Gnavbar">
+        <li class="Gnavbar"><a class="Gnavbar" href="/logout">Logout</a></li>
+        <li class="Gnavbar"><a class="Gnavbar" href="/addService">Service</a></li>
+        <li class="Gnavbar"><a class="Gnavbar" href="/customers">Customers</a></li>
+    </ul>
+
+    <br>
+    {% endif %}
+
+    <div class="containers body-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="/static/scripts/jquery-1.10.2.js"></script>
+    <script src="/static/scripts/bootstrap.js"></script>
+    <script src="/static/scripts/respond.js"></script>
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="page-content-wrapper">
+    <div id="container-fluid">
+        <div class="visible-xs" style="width: 100px; height: 75px;">&nbsp</div>
+        <div id="row">
+            <form action="/" method="POST" class="form-signin">
+                <div id="loginDiv">
+                    <div class="col-lg-12 hidden-xs">
+                        <h1 class="page-header">GrinApp Login</h1>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="alert top-banner visible-xs-block">
+                            <strong>GrinApp Login</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="users" id="loginEmail" placeholder="Username" value="{{user}}" class="form-control input-weinig-grn" style="margin:13px 0" required/>
+                        <input type="password" class="form-control input-weinig-grn" name="password" id="loginPassword" placeholder="Password" required/>
+                        <button name="loginBtn" class="btn btn-lg btn-block btn-weinig-b4" type="submit" style="margin-top: 13px;">Sign In</button>
+                        {% if wrong == 'wrong' %}
+                        <p class="incorrect">Incorrect username or password</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

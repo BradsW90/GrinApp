@@ -1,0 +1,320 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div id="page-content-wrapper">
+    <div class="table-responsive div-border-table">
+        <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0">
+            <form action="/addCustomers/loaded" method="GET" id="form">
+                <thead class="th-shaded">
+                    <tr>
+                        <th>Customer Search</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding-left: 20px">
+                            <label for="customerNameSelect" style="margin-right: 15px;"><b>Customer: </b></label>
+                            <input style="width: 250px; margin-right: 15px; display: inline;" type="text" id="customerNameSelect" name="custName" class="form-control input-sm" value="{{ customerNames }}" />
+                            <ul id="suggestion"></ul>
+                            <button type="submit" id="customerSearch" class="btn-weinig-b4">Search</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        </table>
+        <form id="customer">
+            <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0">
+                <colgroup>
+                    <col span="1" style="width: 33%">
+                    <col span="1" style="width: 33%">
+                    <col span="1" style="width: 33%">
+                    <col span="1" style="width: 1%">
+                </colgroup>
+                <thead class="th-shaded">
+                    <tr>
+                        <th colspan="4">Customer Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Customer #</th>
+                        <th>Customer Name</th>
+                        <th>Customer File Name</th>
+                        <th>Inactive</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="custNumber" id="custNumber" class="dataFill customerForm" value="{{ customerInfo['CustomerNumber'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="custName" id="custName" class="dataFill customerForm" value="{{ customerInfo['CustomerName'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="fileName" id="fileName" class="dataFill customerForm" value="{{ customerInfo['FileName'] }}" required>
+                        </td>
+                        <td>
+                            {% if inactive != 'false' %}
+                            <input type="checkbox" name="inactive" id="inactive" class="dataFill customerForm" checked>
+                            {% else %}
+                            <input type="checkbox" name="inactive" id="inactive" class="dataFill customerForm">
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0">
+                <tbody>
+                    <tr>
+                        <th>Address 1</th>
+                        <th>Address 2</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="address1" id="address1" class="dataFill customerForm" value="{{ customerInfo['Address1'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="address2" id="address2" class="dataFill customerForm" value="{{ customerInfo['Address2'] }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0">
+                <colgroup>
+                    <col span="1" style="width: 1%">
+                    <col span="1" style="width: 1%">
+                    <col span="1" style="width: 15%">
+                    <col span="1" style="width: 1%">
+                    <col span="1" style="width: 82%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>Zip</th>
+                        <th>Zip4</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Additional Names</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="zip" id="zip" class="dataFill customerForm" value="{{ customerInfo['Zip'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="zip4" id="zip4" class="dataFill customerForm" value="{{ customerInfo['Zip4'] }}">
+                        </td>
+                        <td>
+                            <input type="text" name="city" id="city" class="dataFill customerForm" value="{{ customerInfo['City'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="state" id="state" class="dataFill customerForm" value="{{ customerInfo['State'] }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="additional" id="additional" class="dataFill customerForm" value="{{ customerInfo['AdditionalNames'] }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-condensed table-striped table-bg-light">
+                <colgroup>
+                    <col span="1" style="width:1%">
+                    <col span="1" style="width: 99%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button type="button" id="customerBTN" class="btn-weinig-b4">Save</button>
+                        </td>
+                        <td>
+                            <div id="success" class="message" style='color: rgb(0,133,64);' hidden>Save Successful!</div>
+                            <div id="unsuccess" class="message" style='color: red;' hidden>Save Unsuccessful!</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div id="tabs">
+        <a class="a-weinig-667 th-shaded" style="margin-left: 5px;">Contacts</a>
+        <a class="a-weinig-667">Comments</a>
+        <a class="a-weinig-667">Technical Info</a>
+        <a class="a-weinig-667">Equipment</a>
+    </div>
+    <div class="table-responsive div-border-table">
+        <table class="table table-condensed table-striped table-bg-light" style="margin-bottom: 0">
+            <colgroup id="tabGroup">
+                <col span="1" style="width: 1%">
+                <col span="1" style="width: 19.8%">
+                <col span="1" style="width: 19.8%">
+                <col span="1" style="width: 19.8%">
+                <col span="1" style="width: 19.8%">
+                <col span="1" style="width: 19.8%">
+            </colgroup>
+            <form id="contacts">
+                <thead class="th-shaded">
+                    <tr>
+                        <th colspan="6" id="tabTitle">Contacts</th>
+                    </tr>
+                </thead>
+                <tbody id="contactTable" class="tabTable">
+                    <tr>
+                        <th></th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Phone Type</th>
+                    </tr>
+                    <div id="customerContacts">
+
+                    </div>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="text" name="firstName" id="firstName" class="dataFill contactForm" required>
+                        </td>
+                        <td>
+                            <input type="text" name="lastName" id="lastName" class="dataFill contactForm">
+                        </td>
+                        <td>
+                            <input type="email" name="email" id="email" class="dataFill contactForm" required>
+                        </td>
+                        <td>
+                            <input type="text" name="phoneNumber" id="phoneNumber" class="dataFill contactForm">
+                        </td>
+                        <td>
+                            <select name="phoneType" id="phoneType" class="dataFill contactForm">
+                                <option></option>
+                                {% for field in phoneTypes %}
+                                <option value="{{ field['id']}}">{{ field['Desc']}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+            <form id="comments">
+                <tbody id="commentTable" class="tabTable" hidden>
+                    <tr>
+                        <th></th>
+                        <th>Date</th>
+                        <th>Comments</th>
+                    </tr>
+                    <div id="customerComments"></div>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="date" name="commentDate" id="commentDate" class="dataFill">
+                        </td>
+                        <td>
+                            <input type="text" name="comments" id="comments" class="dataFill">
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+            <form id="technicalInfo">
+                <tbody id="techInfoTable" class="tabTable" hidden>
+                    <tr>
+                        <th></th>
+                        <th>Knife Material</th>
+                        <th>Cutterhead</th>
+                        <th>Hook Angle</th>
+                        <th>Back Clearance</th>
+                        <th>Number of Knives</th>
+                    </tr>
+                    <div id="customerTechInfo"></div>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <select name="knifeMat" id="knifeMat" class="dataFill">
+                                <option></option>
+                                {% for knife in knifeMaterial %}
+                                <option value="{{ knife['id'] }}">{{ knife['Desc'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="cutterhead" id="cutterhead" class="dataFill">
+                                <option></option>
+                                {% for cutter in cutterHead %}
+                                <option value="{{ cutter['id'] }}">{{ cutter['Desc'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="hookAngle" id="hookAngle" class="dataFill">
+                                <option></option>
+                                {% for hook in hookAngles %}
+                                <option value="{{ hook['id'] }}">{{ hook['Desc'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="backClearance" id="backClearance" class="dataFill">
+                                <option></option>
+                                {% for back in backClearance %}
+                                <option value="{{ back['id'] }}">{{ back['Desc'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="numKnives" id="numKnives" class="dataFill">
+                                <option></option>
+                                {% for num in tNumKnives %}
+                                <option value="{{ num['id'] }}">{{ num['Desc'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+            <form id="equpment">
+                <tbody id="equipmentTable" class="tabTable" hidden>
+                    <tr>
+                        <th></th>
+                        <th>Machine Type</th>
+                        <th>Date</th>
+                        <th>Comments</th>
+                    </tr>
+                    <div id="customerEquipment"></div>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <select name="machineType" id="machineType" class="dataFill">
+                                <option></option>
+                                {% for machine in machineTypes %}
+                                <option value="{{ machine['MachineTypeID'] }}">{{ machine['MachineTypeDesc']}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="date" name="machineDate" id="machineDate" class="dataFill">
+                        </td>
+                        <td>
+                            <input type="text" name="machineComment" id="machineComment" class="dataFill">
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        </table>
+        <table class="table table-condensed table-striped table-bg-light">
+            <colgroup>
+                <col span="1" style="width: 1%">
+                <col span="1" style="width: 99%;">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <button type="button" id="additionalInfo" class="btn-weinig-b4" data-info="contacts">Save</button>
+                    </td>
+                    <td>
+                        <div id="tabSuccess" class="tabMessage" style='color: rgb(0,133,64);' hidden>Save Successful!</div>
+                        <div id="tabUnsuccess" class="tabMessage" style='color: red;' hidden>Save Unsuccessful!</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='scripts/searchbar.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/customers.js') }}"></script>
+{% endblock %}

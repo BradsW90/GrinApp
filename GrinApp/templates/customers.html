@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers</title>
+    <link  href="{{ url_for('static', filename='GrinStyle.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='service.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='service-global.css') }}" rel="stylesheet">
+</head>
+<body>
+<ul class="Gnavbar">
+    <li class="Gnavbar"><a class="Gnavbar" href="/">Logout</a></li>
+    <li class="Gnavbar"><a class="Gnavbar" href="/addService">Service</a></li>
+    <li class="Gnavbar"><a class="Gnavbar" href="/customers">Customers</a></li>
+    <li class="Gnavbar"><a class="Gnavbar" href="/profileEditor">Grin Profiles</a></li>
+
+</ul>
+
+<br>
+
+<div id="page-content-wrapper">
+
+    <button><a href="/addCustomers">New Customer</a></button>
+    <b>{{ statusResults }}</b>
+    <br><br>
+    <div class="table-responsive div-border-table">
+    <table class="table table-condensed table-striped table-bg-light">
+        <thead class="th-shaded">
+        <tr>
+            <th colspan="5">CUSTOMERS</th>
+        </tr>
+        </thead>
+        <thead>
+        <tr>
+            {% for header in headings %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for row in data %}
+            <tr>
+                {% for cell in row %}
+                    <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <div id="pagination">
+    <button id="prevPage">Previous</button>
+    <button id="nextPage">Next</button>
+</div>
+
+<script>
+    const rowsPerPage = 20;
+    let currentPage = 1;
+
+    const tableRows = document.querySelectorAll('.table tbody tr');
+
+    function showPage(pageNumber) {
+        const startIndex = (pageNumber - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+
+        tableRows.forEach((row, index) => {
+            if (index >= startIndex && index < endIndex) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', () => {
+        const totalRows = tableRows.length;
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    });
+
+    showPage(currentPage);
+</script>
+</div>
+</body>
+</html>
