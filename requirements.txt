@@ -1,2 +1,4 @@
-Flask>=1.1
-pymysql>=1.1
+Flask==3.0.0
+pymysql==1.1.0
+tornado==6.4
+Werkzeug==3.0.1
