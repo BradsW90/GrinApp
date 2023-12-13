@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'GET',
                 success: function (response) {
                     data2 = response.serviceQuery
+                    console.log(data2);
                     for (i=0; i<data2.length; i++) {
                         newRow = document.createElement('tr');
                         let deleteCell = document.createElement('td');
@@ -154,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             cell.innerText = data2[i][serviceLabels[j]];
                             newRow.appendChild(cell);
                         }
-                        for (h=12; h<serviceInputs.length; h++) {
+                        for (h=13; h<serviceInputs.length; h++) {
                             serviceInputs[h].value = data2[i][serviceLabels[h-4]]
                         }
                         renNewService[0].appendChild(newRow);

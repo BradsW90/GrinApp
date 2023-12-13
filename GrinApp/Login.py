@@ -23,9 +23,8 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         user_id = session.get('user_id')
-        print(user_id)
         if (user_id != None):
-            user = QueryBuilder.singleReadWhere('Users', '*', f"UserID={user_id}")
+            user = QueryBuilder.singleReadWhere('users', '*', f"UserID={user_id}")
             if (user['Username'] is None):
                 return redirect(url_for('login_get'))
         else:
@@ -39,7 +38,7 @@ def login_post():
     user = request.form["users"]
     password = request.form["password"]
     try:
-        row = QueryBuilder.singleReadWhere('Users', '*', f"Username = '{user}'")
+        row = QueryBuilder.singleReadWhere('users', '*', f"Username = '{user}'")
         if check_password_hash(row['Password'], password):
             session.clear()
             session['user_id'] = row['UserID']

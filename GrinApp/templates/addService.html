@@ -111,7 +111,7 @@
                         <td><input type="text" id="serviceComment" name="serviceComment" class="newService" style="width: 100%"></td>
                         <td><input type="text" id="placedText" name="placedText" class="newService" /></td>
                         {% if user != False %}
-                        <td><input type="text" id="processedText" name="processedText" class="newService" value="{{ user['FirstName'] }}, {{ user['LastName'][0] }}" /></td>
+                        <td><input type="text" id="processedText" name="processedText" class="newService" value="{{ user['FirstName'] }}, {{ user['LastName'] }}" /></td>
                         {% else %}
                         <td><input type="text" id="processedText" name="processedText" class="newService" /></td>
                         {% endif %}
