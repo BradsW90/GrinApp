@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	const customerMessage = document.getElementsByClassName('message');
 	const tabMessage = document.getElementsByClassName('tabMessage');
 	const contactHeaders = document.getElementById('contactHeaders');
+	const customerContacts = document.getElementById('customerContacts');
 
 	var newCustomer = true;
 	const contactGroup = ['1%','19.8%', '19.8%','19.8%','19.8%','19.8%'];
@@ -81,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function(){
 					if (!newCustomer) {
 						let newData = getCustomerForm('contactForm', 'contacts', tabMessage);
 						newData[0].CustomerNumber = document.getElementById('custNumber').value;
-						console.log(newData);
 						sendData('/addContacts', newData);
 					}
 				}
@@ -184,7 +184,10 @@ document.addEventListener('DOMContentLoaded', function(){
                     throw new Error('Network response not ok');
                 }
                 return response.json();
-            });
+            })
+            .then(data => {
+            	console.log(data);
+            })
 	};
 
 	//Resets shown messages
@@ -218,11 +221,25 @@ document.addEventListener('DOMContentLoaded', function(){
 				capitalizedString = id.slice(0, -1);
 			}
 		let tabForm = document.getElementsByClassName(`${capitalizedString}Form`);
-		console.log(tabForm);
 		for (i=0;i<tabForm.length;i++) {
 			tabForm[i].value = "";
 		}
 	}
+
+	/*function renderData(columns, data, id) {
+		let headers=[];
+		switch(id) {
+		case "contacts":
+			headers.push(contactHeaders.childern);
+			headers.push(customerContacts);
+			break;
+		}
+		let newRow = document.createElement('tr');
+		let deleteCell = document.createElement('td');
+		let deleteBtn = document.createElement('button');
+		deleteBtn.innerText = "Delete";
+		deleteBtn.setAttribute("data-id", )
+	}*/
 
 	class CustomerData {
 		constructor(customerInfo) {

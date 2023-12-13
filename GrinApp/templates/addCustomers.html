@@ -168,7 +168,7 @@
                         {% for contact in contacts %}
                         <tr>
                             <td>
-                                <button data_id="{{ contact['CustomerContactListID'] }}">Delete</button>
+                                <button type="button" data_id="{{ contact['CustomerContactListID'] }}">Delete</button>
                             </td>
                             <td>{{ contact['FirstName'] }}</td>
                             <td>{{ contact['LastName'] }}</td>
@@ -194,7 +194,7 @@
                         </td>
                         <td>
                             <select name="phoneType" id="phoneType" class="dataFill contactForm">
-                                <option></option>
+                                <option value="0" selected></option>
                                 {% for field in phoneTypes %}
                                 <option value="{{ field['id']}}">{{ field['Desc']}}</option>
                                 {% endfor %}

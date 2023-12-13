@@ -82,5 +82,13 @@ def optionData():
 @login_required
 def addContacts():
     data=request.get_json()
-    print(data)
+    insertID = infoInserts('customercontactlist',data)
+    data['insertID'] = insertID
     return data
+
+def infoInserts(table, data):
+    if (table == "customercontactlist"):
+        columns = 'CustomerID, FirstName, LastName, Email, PhoneNumber, PhoneTypeID'
+        dataString = f'{data["CustomerNumber"]}, "{data["firstName"]}", "{data["lastName"]}", "{data["email"]}", "{data["phoneNumber"]}", {data["phoneType"]}'
+    insertID = sqlTool.QueryBuilder.insertIntoTable(table, columns, dataString)
+    return insertID
