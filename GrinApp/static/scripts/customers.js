@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	const customerSearch = document.getElementById('customerSearch');
 	const customerMessage = document.getElementsByClassName('message');
 	const tabMessage = document.getElementsByClassName('tabMessage');
+	const contactHeaders = document.getElementById('contactHeaders');
 
 	var newCustomer = true;
 	const contactGroup = ['1%','19.8%', '19.8%','19.8%','19.8%','19.8%'];
@@ -79,9 +80,8 @@ document.addEventListener('DOMContentLoaded', function(){
 				case "CONTACTS":
 					if (!newCustomer) {
 						let newData = getCustomerForm('contactForm', 'contacts', tabMessage);
-						if (!newData === "") {
-							newData.CustomerNumber = document.getElementById('custNumber').value;
-						}
+						newData[0].CustomerNumber = document.getElementById('custNumber').value;
+						console.log(newData);
 						sendData('/addContacts', newData);
 					}
 				}

@@ -156,7 +156,7 @@
                     </tr>
                 </thead>
                 <tbody id="contactTable" class="tabTable">
-                    <tr>
+                    <tr id="contactHeaders">
                         <th></th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -165,7 +165,18 @@
                         <th>Phone Type</th>
                     </tr>
                     <div id="customerContacts">
-
+                        {% for contact in contacts %}
+                        <tr>
+                            <td>
+                                <button data_id="{{ contact['CustomerContactListID'] }}">Delete</button>
+                            </td>
+                            <td>{{ contact['FirstName'] }}</td>
+                            <td>{{ contact['LastName'] }}</td>
+                            <td>{{ contact['Email'] }}</td>
+                            <td>{{ contact['PhoneNumber'] }}</td>
+                            <td>{{ contact['PhoneType'] }}</td>
+                        </tr>
+                        {% endfor %}
                     </div>
                     <tr>
                         <td></td>
@@ -282,7 +293,7 @@
                             <select name="machineType" id="machineType" class="dataFill">
                                 <option></option>
                                 {% for machine in machineTypes %}
-                                <option value="{{ machine['MachineTypeID'] }}">{{ machine['MachineTypeDesc']}}</option>
+                                <option value="{{ machine['MachineTypeID'] }}">{{ machine['Description']}}</option>
                                 {% endfor %}
                             </select>
                         </td>

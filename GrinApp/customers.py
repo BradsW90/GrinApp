@@ -15,7 +15,7 @@ date = today.strftime("%m/%d/%Y")
 def customers():
     options = optionData()
     return render_template('addCustomers.html', rendering=True, customerInfo="", inactive="false", phoneTypes=options[5], tNumKnives=options[4], cutterHead=options[3], 
-        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6])
+        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts=options[7])
 
 @app.route("/customers/newcustomer", methods=["POST"])
 @login_required
@@ -39,7 +39,7 @@ def addCustomers():
     inactive = customerInfo[0]['Inactive'].lower()
     options = optionData()
     return render_template('addCustomers.html', rendering=True, customerInfo=customerInfo[0], inactive=inactive, phoneTypes=options[5], tNumKnives=options[4], cutterHead=options[3], 
-        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6])
+        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts=options[7])
 
 def optionData():
     options = sqlTool.QueryBuilder.customQuery(f'''
@@ -67,7 +67,8 @@ def optionData():
         NULL AS CutterheadDesc, NULL AS KnifeMaterialID, NULL AS KnifeMaterialDesc, NULL AS NumKnivesPerHeadID, NULL AS NumKnivesPerHeadDesc, PhoneTypeID, Description
         from phonetypes
         ''')
-    machineTypes = sqlTool.QueryBuilder.readFromTable("machinetypes", "*");
+    machineTypes = sqlTool.QueryBuilder.readFromTable("machinetypes", "*")
+    contacts = sqlTool.QueryBuilder.readFromTable('customercontactlist', '*')
     hookAngles = seperateTables("HookAngle", options)
     backClearance = seperateTables("BackClearance", options)
     knifeMaterial = seperateTables("KnifeMaterial", options)
@@ -75,7 +76,7 @@ def optionData():
     tNumKnives = seperateTables("NumKnivesPerHead", options)
     phoneTypes = seperateTables("PhoneType", options)
 
-    return [hookAngles, backClearance, knifeMaterial, cutterHead, tNumKnives, phoneTypes, machineTypes]
+    return [hookAngles, backClearance, knifeMaterial, cutterHead, tNumKnives, phoneTypes, machineTypes, contacts]
 
 @app.route('/addContacts', methods=['POST'])
 @login_required
