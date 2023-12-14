@@ -89,6 +89,10 @@ document.addEventListener('DOMContentLoaded', function(){
 		}
 	})
 
+	customerContacts.addEventListener('click', function(e) {
+		console.log(e);
+	})
+
 	//function to handle tab form rendering
 	function correctRender(element, spacing) {
 		var colGroup = document.getElementById('tabGroup');
@@ -187,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function(){
             })
             .then(data => {
             	console.log(data);
-            })
+            });
 	};
 
 	//Resets shown messages
@@ -226,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		}
 	}
 
-	/*function renderData(columns, data, id) {
+	function renderData(columns, data, id) {
 		let headers=[];
 		switch(id) {
 		case "contacts":
@@ -238,8 +242,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		let deleteCell = document.createElement('td');
 		let deleteBtn = document.createElement('button');
 		deleteBtn.innerText = "Delete";
-		deleteBtn.setAttribute("data-id", )
-	}*/
+		deleteBtn.setAttribute("data-id", data.insertID);
+	}
 
 	class CustomerData {
 		constructor(customerInfo) {
