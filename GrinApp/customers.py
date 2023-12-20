@@ -82,10 +82,15 @@ def optionData():
 @app.route('/addContacts', methods=['POST'])
 @login_required
 def addContacts():
-    data=request.get_json()
-    insertID = infoInserts('customercontactlist',data)
-    data['insertID'] = insertID
-    return data
+    data = request.get_json()
+    print(data)
+    if (data[0] != "delete"):
+        insertID = infoInserts('customercontactlist',data[1])
+        data[1]['insertID'] = insertID
+        return data[1]
+    else:
+        sqlTool.QueryBuilder.deleteFromTable('customercontactlist', f"CustomerContactListID = {data[1]}")
+        return jsonify({'message':'Delete successful'}), 200
 
 def infoInserts(table, data):
     if (table == "customercontactlist"):

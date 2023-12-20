@@ -164,7 +164,6 @@
                         <th>Phone Number</th>
                         <th>Phone Type</th>
                     </tr>
-                    <div id="customerContacts">
                         {% for contact in contacts %}
                         <tr>
                             <td>
@@ -177,7 +176,6 @@
                             <td>{{ contact['PhoneType'] }}</td>
                         </tr>
                         {% endfor %}
-                    </div>
                     <tr>
                         <td></td>
                         <td>
@@ -214,10 +212,10 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input type="date" name="commentDate" id="commentDate" class="dataFill">
+                            <input type="date" name="commentDate" id="commentDate" class="dataFill commentForm">
                         </td>
                         <td>
-                            <input type="text" name="comments" id="comments" class="dataFill">
+                            <input type="text" name="comments" id="comments" class="dataFill commentForm">
                         </td>
                     </tr>
                 </tbody>

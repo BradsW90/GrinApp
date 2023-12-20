@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function(){
 	const customerMessage = document.getElementsByClassName('message');
 	const tabMessage = document.getElementsByClassName('tabMessage');
 	const contactHeaders = document.getElementById('contactHeaders');
-	const customerContacts = document.getElementById('customerContacts');
 
 	var newCustomer = true;
 	const contactGroup = ['1%','19.8%', '19.8%','19.8%','19.8%','19.8%'];
@@ -77,20 +76,31 @@ document.addEventListener('DOMContentLoaded', function(){
 		resetMessage()
 		for (j=0; j<tabTable.length; j++) {
 			if (!tabTable[j].hasAttribute('hidden')) {
-				switch(document.getElementById('tabTitle').innerText) {
+				switch(document.getElementById('tabTitle').innerText.toUpperCase()) {
 				case "CONTACTS":
 					if (!newCustomer) {
 						let newData = getCustomerForm('contactForm', 'contacts', tabMessage);
 						newData[0].CustomerNumber = document.getElementById('custNumber').value;
 						sendData('/addContacts', newData);
 					}
+					break;
+				case "COMMENTS":
+					if (!newCustomer) {
+						let newData = getCustomerForm('commentForm', 'comments', tabMessage);
+						newData[0].CustomerNumber = document.getElementById('custNumber').value;
+						//sendData('addComments', newData);
+						console.log(newData);
+					}
+					break;
 				}
 			}
 		}
 	})
 
-	customerContacts.addEventListener('click', function(e) {
-		console.log(e);
+	contactTable.addEventListener('click', function(e) {
+		if (e.target.tagName.toLowerCase() === "button") {
+			deleteData(e.target.getAttribute("data_id"), "/addContacts")
+		}
 	})
 
 	//function to handle tab form rendering
@@ -135,6 +145,10 @@ document.addEventListener('DOMContentLoaded', function(){
 		case "contacts":
 			newCustomerData = new ContactData(toObject);
 			break;
+
+		case "comments":
+			newCustomerData = new CommentData(toObject);
+			break;
 		}
 			for (i=0; i<formData.length; i++) {
 				if (formData[i].hasAttribute('required') && formData[i].value.trim() === "") {
@@ -176,12 +190,14 @@ document.addEventListener('DOMContentLoaded', function(){
 			clearField(data[2]);
 			tabMessage[0].removeAttribute('hidden');
 		}
+		let newData = ["post"];
+		newData.push(data[0]);
 		fetch(URL, {
             	method: "POST",
             	headers: {
             		'content-type': 'application/json'
             	},
-            	body: JSON.stringify(data[0])
+            	body: JSON.stringify(newData)
             })
             .then(response => {
                 if (!response.ok) {
@@ -245,6 +261,28 @@ document.addEventListener('DOMContentLoaded', function(){
 		deleteBtn.setAttribute("data-id", data.insertID);
 	}
 
+	function deleteData(data, URL) {
+		let newData = ["delete"]
+		newData.push(data);
+		fetch(URL, {
+			method: "POST",
+			headers: {
+				'content-type':'application/json'
+			},
+			body: JSON.stringify(newData)
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log(data.message);
+			window.location.reload();
+		});
+	}
+
 	class CustomerData {
 		constructor(customerInfo) {
 			this.custNumber = customerInfo[0];
@@ -267,6 +305,13 @@ document.addEventListener('DOMContentLoaded', function(){
 			this.email=contactInfo[2];
 			this.phoneNumber=contactInfo[3];
 			this.phoneType=contactInfo[4];
+		}
+	}
+
+	class CommentData {
+		constructor(commentInfo) {
+			this.date=commentInfo[0];
+			this.comment=commentInfo[1];
 		}
 	}
 });

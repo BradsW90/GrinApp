@@ -332,3 +332,7 @@ td a:focus {
     text-decoration: none;
     color: rgba(232, 230, 227, 1.0);
 }
+
+#tabs a {
+    padding: 3px 3px 0px 3px;
+}
