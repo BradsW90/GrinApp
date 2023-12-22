@@ -120,6 +120,15 @@ document.addEventListener("DOMContentLoaded", function () {
               sendData("/addComments", newData);
             }
             break;
+          case "TECHNICAL INFO":
+            if (!newCustomer) {
+              let newData = getCustomerForm("techForm", "tech", tabMessage);
+              newData[0].CustomerNumber = document
+                .getElementById("custNumber")
+                .getAttribute("data-custid");
+              sendData("/updateTechInfo", newData);
+            }
+            break;
           case "EQUIPMENT":
             if (!newCustomer) {
               let newData = getCustomerForm(
@@ -151,6 +160,12 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.getAttribute("data_ccid"),
       ];
       deleteData(deletionData, "/addComments");
+    }
+  });
+
+  equipmentTable.addEventListener("click", function (e) {
+    if (e.target.tagName.toLowerCase() === "button") {
+      deleteData(e.target.getAttribute("data_id"), "/addEquipment");
     }
   });
 
@@ -200,6 +215,12 @@ document.addEventListener("DOMContentLoaded", function () {
       case "comments":
         newCustomerData = new CommentData(toObject);
         break;
+      case "tech":
+        newCustomerData = new TechnicalInfoData(toObject);
+        break;
+      case "equipment":
+        newCustomerData = new EquipmentData(toObject);
+        break;
     }
     for (i = 0; i < formData.length; i++) {
       if (
@@ -241,7 +262,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     } else if (!data[1] && data[2] != "customer") {
       resetErrorHighlight(data[2]);
-      clearField(data[2]);
+      if (data[2] != "tech") {
+        clearField(data[2]);
+      }
       tabMessage[0].removeAttribute("hidden");
     }
     let newData = ["post"];
@@ -261,6 +284,11 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((data) => {
         console.log(data);
+        if (window.location.href === "http://localhost:5113/customers/") {
+          let custName = document.getElementById("custName");
+          let custNameText = custName.value.replace(" ", "+");
+          window.location.href = `http://localhost:5113/addCustomers/loaded?custname=${custNameText}`;
+        }
       });
   }
 
@@ -293,6 +321,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function clearField(id) {
     if (id[id.length - 1] === "s") {
       capitalizedString = id.slice(0, -1);
+    }
+
+    if (id === "customer" || id === "equipment") {
+      capitalizedString = id;
     }
     let tabForm = document.getElementsByClassName(`${capitalizedString}Form`);
     for (i = 0; i < tabForm.length; i++) {
@@ -366,6 +398,24 @@ document.addEventListener("DOMContentLoaded", function () {
     constructor(commentInfo) {
       this.date = commentInfo[0];
       this.comment = commentInfo[1];
+    }
+  }
+
+  class TechnicalInfoData {
+    constructor(technicalInfo) {
+      this.knifeMaterialID = technicalInfo[0];
+      this.cutterheadID = technicalInfo[1];
+      this.hookAngleID = technicalInfo[2];
+      this.backClearance = technicalInfo[3];
+      this.numKnivesPerHeadID = technicalInfo[4];
+    }
+  }
+
+  class EquipmentData {
+    constructor(equipmentInfo) {
+      this.machineTypeID = equipmentInfo[0];
+      this.date = equipmentInfo[1];
+      this.comment = equipmentInfo[2];
     }
   }
 });

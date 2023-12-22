@@ -402,7 +402,7 @@
           <tr>
             <td></td>
             <td>
-              <select name="knifeMat" id="knifeMat" class="dataFill tech">
+              <select name="knifeMat" id="knifeMat" class="dataFill techForm">
                 <option></option>
                 {% for knife in knifeMaterial %}
                 <option value="{{ knife['id'] }}">{{ knife['Desc'] }}</option>
@@ -410,7 +410,11 @@
               </select>
             </td>
             <td>
-              <select name="cutterhead" id="cutterhead" class="dataFill tech">
+              <select
+                name="cutterhead"
+                id="cutterhead"
+                class="dataFill techForm"
+              >
                 <option></option>
                 {% for cutter in cutterHead %}
                 <option value="{{ cutter['id'] }}">{{ cutter['Desc'] }}</option>
@@ -418,7 +422,7 @@
               </select>
             </td>
             <td>
-              <select name="hookAngle" id="hookAngle" class="dataFill tech">
+              <select name="hookAngle" id="hookAngle" class="dataFill techForm">
                 <option></option>
                 {% for hook in hookAngles %}
                 <option value="{{ hook['id'] }}">{{ hook['Desc'] }}</option>
@@ -429,7 +433,7 @@
               <select
                 name="backClearance"
                 id="backClearance"
-                class="dataFill tech"
+                class="dataFill techForm"
               >
                 <option></option>
                 {% for back in backClearance %}
@@ -438,7 +442,7 @@
               </select>
             </td>
             <td>
-              <select name="numKnives" id="numKnives" class="dataFill tech">
+              <select name="numKnives" id="numKnives" class="dataFill techForm">
                 <option></option>
                 {% for num in tNumKnives %}
                 <option value="{{ num['id'] }}">{{ num['Desc'] }}</option>
@@ -456,11 +460,26 @@
             <th>Date</th>
             <th>Comments</th>
           </tr>
-          <div id="customerEquipment"></div>
+          {% for equip in equipment %}
+          <tr>
+            <td>
+              <button type="button" data_id="{{ equipment['EquipmentID'] }}">
+                Delete
+              </button>
+            </td>
+            <td>{{ equipment["Description"] }}</td>
+            <td>{{ equipment["Date"]}}</td>
+            <td>{{ equipment["Comments"] }}</td>
+          </tr>
+          {% endfor %}
           <tr>
             <td></td>
             <td>
-              <select name="machineType" id="machineType" class="dataFill">
+              <select
+                name="machineType"
+                id="machineType"
+                class="dataFill equipmentForm"
+              >
                 <option></option>
                 {% for machine in machineTypes %}
                 <option value="{{ machine['MachineTypeID'] }}">
@@ -474,7 +493,7 @@
                 type="date"
                 name="machineDate"
                 id="machineDate"
-                class="dataFill"
+                class="dataFill equipmentForm"
               />
             </td>
             <td>
@@ -482,7 +501,7 @@
                 type="text"
                 name="machineComment"
                 id="machineComment"
-                class="dataFill"
+                class="dataFill equipmentForm"
               />
             </td>
           </tr>
@@ -529,7 +548,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     if (window.location.href != "http://localhost:5113/customers/") {
-      let tech = document.getElementsByClassName("tech");
+      let tech = document.getElementsByClassName("techForm");
       let techData = [
         "{{ technicalInfo['KnifeMaterialID'] }}",
         "{{ technicalInfo['CutterheadID'] }}",

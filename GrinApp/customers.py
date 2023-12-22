@@ -15,13 +15,13 @@ date = today.strftime("%m/%d/%Y")
 def customers():
     options = optionData()
     return render_template('addCustomers.html', rendering=True, customerInfo="", inactive="false", phoneTypes=options[5], tNumKnives=options[4], cutterHead=options[3], 
-        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts="", comments="", technicalInfo="")
+        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts="", comments="", technicalInfo="", equipment="")
 
 @app.route("/customers/newcustomer", methods=["POST"])
 @login_required
 def newCustomer():
     data=request.get_json()
-    sqlTool.QueryBuilder.insertIntoTable('customers', 'CustomerNumber, CustomerName, Address1, Address2, City, State, Zip, Zip4, FileName, AdditionalNames, Inactive, TemplateCustomer, KnifeCustomer, Roughgrindcustomer', f"{int(data['custNumber'])}, '{data['custName']}', '{data['address1']}', '{data['address2']}', '{data['city']}', '{data['state']}', {int(data['zip'])}, '{data['zip4']}', '{data['fileName']}', '{data['additionalInfo']}', 'false', 'false', 'false', 'false'")
+    sqlTool.QueryBuilder.insertIntoTable('customers', 'CustomerNumber, CustomerName, Address1, Address2, City, State, Zip, Zip4, FileName, AdditionalNames, Inactive, TemplateCustomer, KnifeCustomer, Roughgrindcustomer', f"{int(data[1]['custNumber'])}, '{data[1]['custName']}', '{data[1]['address1']}', '{data[1]['address2']}', '{data[1]['city']}', '{data[1]['state']}', {int(data[1]['zip'])}, '{data[1]['zip4']}', '{data[1]['fileName']}', '{data[1]['additionalInfo']}', 'false', 'false', 'false', 'false'")
     return data
 
 @app.route("/customers/updatecustomer", methods=["POST"])
@@ -39,12 +39,13 @@ def addCustomers():
     inactive = customerInfo[0]['Inactive'].lower()
     contacts = sqlTool.QueryBuilder.readWhereFromTable('customercontactlist', "*", f'CustomerID= {customerInfo[0]["CustomerNumber"]}')
     comments = sqlTool.QueryBuilder.readWhereFromTable('customercomments', "*", f'CustomerID= {customerInfo[0]["CustomerID"] }')
-    technicalInfo = sqlTool.QueryBuilder.readWhereFromTable('technicalinfo', "*", f'CustomerID= {customerInfo[0]["CustomerID"]}')
-    print(technicalInfo)
+    technicalInfo = sqlTool.QueryBuilder.singleReadWhere('technicalinfo', "*", f'CustomerID= {customerInfo[0]["CustomerID"]}')
+    equipment = sqlTool.QueryBuilder.customQuery(f"""
+    select machinetypes.Description 
+    """)
     options = optionData()
-    print(options[2])
     return render_template('addCustomers.html', rendering=True, customerInfo=customerInfo[0], inactive=inactive, phoneTypes=options[5], tNumKnives=options[4], cutterHead=options[3], 
-        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts=contacts, comments=comments, technicalInfo=technicalInfo[0])
+        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts=contacts, comments=comments, technicalInfo=technicalInfo)
 
 def optionData():
     options = sqlTool.QueryBuilder.customQuery(f'''
@@ -98,7 +99,6 @@ def addContacts():
 @login_required
 def addComments():
     data= request.get_json()
-    print(data)
     if (data[0] != "delete"):
         insertID = infoInserts('customercomments',data[1])
         data[1]['insertID'] = insertID
@@ -112,6 +112,19 @@ def addComments():
 def updateTechInfo():
     data=request.get_json()
     print(data)
+    techInfoCheck = sqlTool.QueryBuilder.singleReadWhere('technicalinfo', '*', f'CustomerID = {data[1]["CustomerNumber"]}');
+    if (techInfoCheck == None):
+        infoInserts('technicalinfo', data[1])
+    else:
+        print("Update TechInfo")
+
+    return data
+
+@app.route('/addEquipment', methods=['POST'])
+@login_required
+def addEquipment():
+    data=request.get_json()
+    print(data)
     return data
 
 def infoInserts(table, data):
@@ -121,5 +134,8 @@ def infoInserts(table, data):
     if (table =="customercomments"):
         columns='CustomerID, Date, Comment'
         dataString=f'{data["CustomerNumber"]}, "{data["date"]}", "{data["comment"]}"'
+    if (table == "technicalinfo"):
+        columns='CustomerID, KnifeMaterialID, CutterheadID, HookAngleID, BackClearanceID, TemplateDestID, NumKnivesPerHeadID'
+        dataString=f'{data["CustomerNumber"]}, {data["knifeMaterialID"]}, {data["cutterheadID"]}, {data["hookAngleID"]}, {data["backClearance"]}, 1, {data["numKnivesPerHeadID"]}'
     insertID = sqlTool.QueryBuilder.insertIntoTable(table, columns, dataString)
     return insertID
