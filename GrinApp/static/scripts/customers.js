@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function () {
   //Tab form save functionality
   additionalInfo.addEventListener("click", function () {
     resetMessage();
-    for (j = 0; j < tabTable.length; j++) {
-      if (!tabTable[j].hasAttribute("hidden")) {
+    for (p = 0; p < tabTable.length; p++) {
+      if (!tabTable[p].hasAttribute("hidden")) {
         switch (document.getElementById("tabTitle").innerText.toUpperCase()) {
           case "CONTACTS":
             if (!newCustomer) {
@@ -139,8 +139,10 @@ document.addEventListener("DOMContentLoaded", function () {
               newData[0].CustomerNumber = document
                 .getElementById("custNumber")
                 .getAttribute("data-custid");
-              sendData("/updateTechInfo", newData);
+              sendData("/addEquipment", newData);
             }
+            break;
+          default:
             break;
         }
       }

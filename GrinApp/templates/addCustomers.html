@@ -463,13 +463,13 @@
           {% for equip in equipment %}
           <tr>
             <td>
-              <button type="button" data_id="{{ equipment['EquipmentID'] }}">
+              <button type="button" data_id="{{ equip['EquipmentID'] }}">
                 Delete
               </button>
             </td>
-            <td>{{ equipment["Description"] }}</td>
-            <td>{{ equipment["Date"]}}</td>
-            <td>{{ equipment["Comments"] }}</td>
+            <td>{{ equip["Description"] }}</td>
+            <td>{{ equip["Date"]}}</td>
+            <td>{{ equip["Comments"] }}</td>
           </tr>
           {% endfor %}
           <tr>

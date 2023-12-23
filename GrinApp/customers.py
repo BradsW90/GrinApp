@@ -28,7 +28,8 @@ def newCustomer():
 @login_required
 def updateCustomer():
     data=request.get_json()
-    print("Update fired!")
+    print(data)
+    sqlTool.QueryBuilder.updateTable('customers', f'CustomerName = "{data[1]["custName"]}", Address1 = "{data[1]["address1"]}", Address2 = "{data[1]["address2"]}", City = "{data[1]["city"]}", State = "{data[1]["state"]}", Zip = {data[1]["zip"]}, FileName = "{data[1]["fileName"]}", AdditionalNames = "{data[1]["additionalInfo"]}"', f'CustomerNumber = {data[1]["custNumber"]}')
     return data
 
 @app.route("/addCustomers/loaded", methods=["GET"])
@@ -41,11 +42,13 @@ def addCustomers():
     comments = sqlTool.QueryBuilder.readWhereFromTable('customercomments', "*", f'CustomerID= {customerInfo[0]["CustomerID"] }')
     technicalInfo = sqlTool.QueryBuilder.singleReadWhere('technicalinfo', "*", f'CustomerID= {customerInfo[0]["CustomerID"]}')
     equipment = sqlTool.QueryBuilder.customQuery(f"""
-    select machinetypes.Description 
+    select equipment.EquipmentID, machinetypes.Description, equipment.Date, equipment.Comments from equipment
+    join machinetypes on machinetypes.MachineTypeID = equipment.MachineTypeID
+    where equipment.CustomerID = {customerInfo[0]['CustomerID']}
     """)
     options = optionData()
     return render_template('addCustomers.html', rendering=True, customerInfo=customerInfo[0], inactive=inactive, phoneTypes=options[5], tNumKnives=options[4], cutterHead=options[3], 
-        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts=contacts, comments=comments, technicalInfo=technicalInfo)
+        knifeMaterial=options[2], backClearance=options[1], hookAngles=options[0], machineTypes=options[6], contacts=contacts, comments=comments, technicalInfo=technicalInfo, equipment=equipment)
 
 def optionData():
     options = sqlTool.QueryBuilder.customQuery(f'''
@@ -111,12 +114,11 @@ def addComments():
 @login_required
 def updateTechInfo():
     data=request.get_json()
-    print(data)
     techInfoCheck = sqlTool.QueryBuilder.singleReadWhere('technicalinfo', '*', f'CustomerID = {data[1]["CustomerNumber"]}');
     if (techInfoCheck == None):
         infoInserts('technicalinfo', data[1])
     else:
-        print("Update TechInfo")
+        sqlTool.QueryBuilder.updateTable('technicalinfo', f'KnifeMaterialID = {data[1]["knifeMaterialID"]}, CutterheadID = {data[1]["cutterheadID"]}, HookAngleID = {data[1]["hookAngleID"]}, BackClearanceID = {data[1]["backClearance"]}, TemplateDestID = 1, NumKnivesPerHeadID = {data[1]["numKnivesPerHeadID"]}', f'CustomerID = {data[1]["CustomerNumber"]}')
 
     return data
 
@@ -124,7 +126,11 @@ def updateTechInfo():
 @login_required
 def addEquipment():
     data=request.get_json()
-    print(data)
+    if (data[0] != "delete"):
+        insertID = infoInserts('equipment', data[1])
+        data[1]['insertID'] = insertID
+    else:
+        sqlTool.QueryBuilder.deleteFromTable('equipment', f'EquipmentID = {data[1]}')
     return data
 
 def infoInserts(table, data):
@@ -137,5 +143,8 @@ def infoInserts(table, data):
     if (table == "technicalinfo"):
         columns='CustomerID, KnifeMaterialID, CutterheadID, HookAngleID, BackClearanceID, TemplateDestID, NumKnivesPerHeadID'
         dataString=f'{data["CustomerNumber"]}, {data["knifeMaterialID"]}, {data["cutterheadID"]}, {data["hookAngleID"]}, {data["backClearance"]}, 1, {data["numKnivesPerHeadID"]}'
+    if (table =="equipment"):
+        columns='CustomerID, MachineTypeID, Date, Comments'
+        dataString=f'{data["CustomerNumber"]}, {data["machineTypeID"]}, "{data["date"]}", "{data["comment"]}"'
     insertID = sqlTool.QueryBuilder.insertIntoTable(table, columns, dataString)
     return insertID
