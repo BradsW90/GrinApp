@@ -53,7 +53,7 @@ def addServiceEdit():
         previousServiceList = sqlTool.QueryBuilder.customQuery(f"""
             select CustomerServiceID, date, ShipDate, NumTemplates, orderplacedbyid from customerservices
             join customers on customers.CustomerID = customerservices.CustomerID
-            where CustomerName = '{name}'
+            where CustomerName = "{name}"
             order by CustomerServiceID DESC
             """)
         # Comments table

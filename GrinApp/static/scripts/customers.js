@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const customerMessage = document.getElementsByClassName("message");
   const tabMessage = document.getElementsByClassName("tabMessage");
   const contactHeaders = document.getElementById("contactHeaders");
+  const customerClear = document.getElementById("customerClear");
 
   var newCustomer = true;
   const contactGroup = ["1%", "19.8%", "19.8%", "19.8%", "19.8%", "19.8%"];
@@ -85,6 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "customer",
         customerMessage
       );
+      let CustomerID = document.getElementById("custNumber");
+      newCustomerData[0].CustomerID = CustomerID.getAttribute("data-custid");
       sendData("/customers/updatecustomer", newCustomerData);
     }
   });
@@ -169,6 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target.tagName.toLowerCase() === "button") {
       deleteData(e.target.getAttribute("data_id"), "/addEquipment");
     }
+  });
+
+  customerClear.addEventListener("click", function () {
+    window.location.href = "http://localhost:5113/customers/";
   });
 
   //function to handle tab form rendering
@@ -289,7 +296,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (window.location.href === "http://localhost:5113/customers/") {
           let custName = document.getElementById("custName");
           let custNameText = custName.value.replace(" ", "+");
-          window.location.href = `http://localhost:5113/addCustomers/loaded?custname=${custNameText}`;
+          window.location.href = `http://localhost:5113/addCustomers/loaded?custName=${custNameText}`;
+        } else {
+          window.location.reload();
         }
       });
   }
@@ -332,21 +341,6 @@ document.addEventListener("DOMContentLoaded", function () {
     for (i = 0; i < tabForm.length; i++) {
       tabForm[i].value = "";
     }
-  }
-
-  function renderData(columns, data, id) {
-    let headers = [];
-    switch (id) {
-      case "contacts":
-        headers.push(contactHeaders.childern);
-        headers.push(customerContacts);
-        break;
-    }
-    let newRow = document.createElement("tr");
-    let deleteCell = document.createElement("td");
-    let deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "Delete";
-    deleteBtn.setAttribute("data-id", data.insertID);
   }
 
   function deleteData(data, URL) {

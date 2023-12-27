@@ -21,7 +21,7 @@ def customers():
 @login_required
 def newCustomer():
     data=request.get_json()
-    sqlTool.QueryBuilder.insertIntoTable('customers', 'CustomerNumber, CustomerName, Address1, Address2, City, State, Zip, Zip4, FileName, AdditionalNames, Inactive, TemplateCustomer, KnifeCustomer, Roughgrindcustomer', f"{int(data[1]['custNumber'])}, '{data[1]['custName']}', '{data[1]['address1']}', '{data[1]['address2']}', '{data[1]['city']}', '{data[1]['state']}', {int(data[1]['zip'])}, '{data[1]['zip4']}', '{data[1]['fileName']}', '{data[1]['additionalInfo']}', 'false', 'false', 'false', 'false'")
+    sqlTool.QueryBuilder.insertIntoTable('customers', 'CustomerNumber, CustomerName, Address1, Address2, City, State, Zip, Zip4, FileName, AdditionalNames, Inactive, TemplateCustomer, KnifeCustomer, Roughgrindcustomer', f'{int(data[1]["custNumber"])}, "{data[1]["custName"]}", "{data[1]["address1"]}", "{data[1]["address2"]}", "{data[1]["city"]}", "{data[1]["state"]}", {int(data[1]["zip"])}, "{data[1]["zip4"]}", "{data[1]["fileName"]}", "{data[1]["additionalInfo"]}", "false", "false", "false", "false"')
     return data
 
 @app.route("/customers/updatecustomer", methods=["POST"])
@@ -29,7 +29,7 @@ def newCustomer():
 def updateCustomer():
     data=request.get_json()
     print(data)
-    sqlTool.QueryBuilder.updateTable('customers', f'CustomerName = "{data[1]["custName"]}", Address1 = "{data[1]["address1"]}", Address2 = "{data[1]["address2"]}", City = "{data[1]["city"]}", State = "{data[1]["state"]}", Zip = {data[1]["zip"]}, FileName = "{data[1]["fileName"]}", AdditionalNames = "{data[1]["additionalInfo"]}"', f'CustomerNumber = {data[1]["custNumber"]}')
+    sqlTool.QueryBuilder.updateTable('customers', f'CustomerName = "{data[1]["custName"]}", Address1 = "{data[1]["address1"]}", Address2 = "{data[1]["address2"]}", City = "{data[1]["city"]}", State = "{data[1]["state"]}", Zip = {data[1]["zip"]}, FileName = "{data[1]["fileName"]}", AdditionalNames = "{data[1]["additionalInfo"]}"', f'CustomerID = {data[1]["CustomerID"]}')
     return data
 
 @app.route("/addCustomers/loaded", methods=["GET"])
