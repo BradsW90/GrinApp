@@ -1,3 +1,4 @@
+//r"^-?(\d+[^a-zA-Z]\.\d+[^a-zA-Z])$|^-?(\d+[^a-zA-Z])$"gm
 document.addEventListener("DOMContentLoaded", function () {
   //all input fields
   const serviceInputs = document.getElementsByClassName("newService");
