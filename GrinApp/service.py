@@ -19,7 +19,7 @@ def preAddService():
 @app.route("/addService/", methods=["GET"])
 @login_required
 def addService():
-    return render_template('addService.html', tips='', chosenName='',user=False, rendering=True)
+    return render_template('addService.html', tips='', chosenName='',user=False, rendering=True, incorrect=False)
 
 
 #populates customer and page data off of customer search
@@ -107,9 +107,14 @@ def addServiceEdit():
         cutterHead = seperateTables("Cutterhead", technicalInfoSelections)
         tNumKnives = seperateTables("NumKnivesPerHead", technicalInfoSelections)
         headPositions = seperateTables("HeadPosition", technicalInfoSelections)
-        return render_template('addService.html', tips=customerInfo[0]['Tips'], customerNames=name, chosenName=name, customerNumber=customerInfo[0]['CustomerNumber'], data=data, 
-            hookAngles=hookAngles, headPositions=headPositions, backClearance=backClearance, knifeMaterial=knifeMaterial, cutterHead=cutterHead, tNumKnives=tNumKnives, 
-            previousServiceList=previousServiceList, technicalInfo=technicalInfo[0], user=user[0], rendering=True, nonSearch=True)
+        if (len(technicalInfo) == 0):
+            return render_template('addService.html', tips=customerInfo[0]['Tips'], customerNames=name, chosenName=name, customerNumber=customerInfo[0]['CustomerNumber'], data=data, 
+                hookAngles=hookAngles, headPositions=headPositions, backClearance=backClearance, knifeMaterial=knifeMaterial, cutterHead=cutterHead, tNumKnives=tNumKnives, 
+                previousServiceList=previousServiceList, technicalInfo="", user=user[0], rendering=True, nonSearch=True, incorrect=True)
+        else:
+            return render_template('addService.html', tips=customerInfo[0]['Tips'], customerNames=name, chosenName=name, customerNumber=customerInfo[0]['CustomerNumber'], data=data, 
+                hookAngles=hookAngles, headPositions=headPositions, backClearance=backClearance, knifeMaterial=knifeMaterial, cutterHead=cutterHead, tNumKnives=tNumKnives, 
+                previousServiceList=previousServiceList, technicalInfo=technicalInfo[0], user=user[0], rendering=True, nonSearch=True, incorrect=False)
 
 
 #Gets info based on id for print page

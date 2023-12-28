@@ -336,3 +336,8 @@ td a:focus {
 #tabs a {
   padding: 3px 3px 0px 3px;
 }
+
+#incomplete {
+  text-align: center;
+  color: #ed1c24;
+}
