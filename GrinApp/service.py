@@ -110,7 +110,7 @@ def addServiceEdit():
         if (len(technicalInfo) == 0):
             return render_template('addService.html', tips=customerInfo[0]['Tips'], customerNames=name, chosenName=name, customerNumber=customerInfo[0]['CustomerNumber'], data=data, 
                 hookAngles=hookAngles, headPositions=headPositions, backClearance=backClearance, knifeMaterial=knifeMaterial, cutterHead=cutterHead, tNumKnives=tNumKnives, 
-                previousServiceList=previousServiceList, technicalInfo="", user=user[0], rendering=True, nonSearch=True, incorrect=True)
+                previousServiceList=previousServiceList, technicalInfo="", user=user[0], rendering=True, nonSearch=True, incorrect=True, custIncorrect=False)
         else:
             return render_template('addService.html', tips=customerInfo[0]['Tips'], customerNames=name, chosenName=name, customerNumber=customerInfo[0]['CustomerNumber'], data=data, 
                 hookAngles=hookAngles, headPositions=headPositions, backClearance=backClearance, knifeMaterial=knifeMaterial, cutterHead=cutterHead, tNumKnives=tNumKnives, 

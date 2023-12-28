@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabMessage = document.getElementsByClassName("tabMessage");
   const contactHeaders = document.getElementById("contactHeaders");
   const customerClear = document.getElementById("customerClear");
+  const dup = document.getElementById("dup");
 
   var newCustomer = true;
   const contactGroup = ["1%", "19.8%", "19.8%", "19.8%", "19.8%", "19.8%"];
@@ -293,6 +294,12 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((data) => {
         console.log(data);
+        if (data.message === "noCustomer") {
+          customerMessage[0].setAttribute("hidden", true);
+          customerMessage[1].removeAttribute("hidden");
+          dup.removeAttribute("hidden");
+          return;
+        }
         if (window.location.href === "http://localhost:5113/customers/") {
           let custName = document.getElementById("custName");
           let custNameText = custName.value.replace(" ", "+");

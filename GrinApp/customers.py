@@ -1,5 +1,5 @@
 from GrinApp import app
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, redirect, url_for
 import GrinApp.SQLTool as sqlTool
 from datetime import date
 from GrinApp.Login import login_required
@@ -21,6 +21,9 @@ def customers():
 @login_required
 def newCustomer():
     data=request.get_json()
+    existingCustomer = sqlTool.QueryBuilder.readWhereFromTable('customers', '*', f'CustomerNumber = {data[1]["custNumber"]}')
+    if (len(existingCustomer) > 0):
+        return jsonify({'message':'noCustomer'})
     sqlTool.QueryBuilder.insertIntoTable('customers', 'CustomerNumber, CustomerName, Address1, Address2, City, State, Zip, Zip4, FileName, AdditionalNames, Inactive, TemplateCustomer, KnifeCustomer, Roughgrindcustomer', f'{int(data[1]["custNumber"])}, "{data[1]["custName"]}", "{data[1]["address1"]}", "{data[1]["address2"]}", "{data[1]["city"]}", "{data[1]["state"]}", {int(data[1]["zip"])}, "{data[1]["zip4"]}", "{data[1]["fileName"]}", "{data[1]["additionalInfo"]}", "false", "false", "false", "false"')
     return data
 
@@ -37,6 +40,8 @@ def updateCustomer():
 def addCustomers():
     name = request.args.get('custName')
     customerInfo = sqlTool.QueryBuilder.readWhereFromTable('customers', "*", f'CustomerName= "{name}"')
+    if (len(customerInfo) == 0):
+        return redirect(url_for('customers'))
     inactive = customerInfo[0]['Inactive'].lower()
     contacts = sqlTool.QueryBuilder.readWhereFromTable('customercontactlist', "*", f'CustomerID= {customerInfo[0]["CustomerNumber"]}')
     comments = sqlTool.QueryBuilder.readWhereFromTable('customercomments', "*", f'CustomerID= {customerInfo[0]["CustomerID"] }')
