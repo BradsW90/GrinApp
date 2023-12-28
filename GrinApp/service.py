@@ -127,7 +127,6 @@ def printData (id = None):
         data = request.get_json()
         nonServiceDetail = data[-12:]
         nonServiceDetail[4] = session.get('user_id')
-        print(nonServiceDetail[4])
         CustID = sqlTool.QueryBuilder.readWhereFromTable("customers", "CustomerID", f"CustomerNumber = {nonServiceDetail[11]}")
         nonServiceDetail[11] = CustID[0]['CustomerID']
         for index, item in enumerate(nonServiceDetail):

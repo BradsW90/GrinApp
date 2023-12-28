@@ -94,8 +94,9 @@ content %}
                 type="text"
                 id="qtyText"
                 name="qtyText"
-                class="newService"
+                class="newService serv"
                 style="width: 175px"
+                required
               />
             </td>
             <td>
@@ -103,7 +104,8 @@ content %}
                 type="text"
                 id="serviceText"
                 name="serviceText"
-                class="newService"
+                class="newService serv"
+                required
               />
             </td>
             <td>
@@ -111,8 +113,9 @@ content %}
                 type="text"
                 id="custDescText"
                 name="custDescText"
-                class="newService"
+                class="newService serv"
                 style="width: 650px"
+                required
               />
             </td>
             <td>
@@ -120,8 +123,9 @@ content %}
                 type="text"
                 id="numKnifeText"
                 name="numKnifeText"
-                class="newService"
+                class="newService serv"
                 style="width: 150px"
+                required
               />
             </td>
             <td>
@@ -129,8 +133,9 @@ content %}
                 type="text"
                 id="widthText"
                 name="widthText"
-                class="newService"
+                class="newService serv"
                 style="width: 100px"
+                required
               />
             </td>
             <td>
@@ -138,16 +143,18 @@ content %}
                 type="text"
                 id="lengthText"
                 name="lengthText"
-                class="newService"
+                class="newService serv"
                 style="width: 100px"
+                required
               />
             </td>
             <td>
               <select
                 id="serviceSelect"
                 name="serviceSelect"
-                class="form-control input-sm newService"
+                class="form-control input-sm newService serv"
                 style="width: 120px"
+                required
               >
                 <option></option>
                 {% for positions in headPositions %}
@@ -245,7 +252,14 @@ content %}
                 Add Service
               </button>
             </td>
-            <td colspan="7"></td>
+            <td colspan="7">
+              <span id="addServiceMsg" class="allMsg" style="color: red" hidden
+                >Please fill the required fields!</span
+              >
+              <span id="noCustomerMsg" class="allMsg" style="color: red" hidden
+                >No customer searched!</span
+              >
+            </td>
           </tr>
         </tbody>
       </table>
@@ -360,7 +374,8 @@ content %}
               style="width: 250px"
               type="text"
               id="numTemplateText"
-              class="newService"
+              class="newService tech"
+              required
             />
           </td>
           <td style="width: 175px" align="right"><b>Knife Material: </b></td>
@@ -368,7 +383,8 @@ content %}
             <select
               id="knifeMaterialSelect"
               name="knifeMaterialSelect"
-              class="form-control input-sm newService"
+              class="form-control input-sm newService tech"
+              required
             >
               {% if nonSearch %}
               <option value="{{ technicalInfo['KnifeMaterialID'] }}">
@@ -386,7 +402,8 @@ content %}
             <select
               id="cutterHeadSelect"
               name="cutterHeadSelect"
-              class="form-control input-sm newService"
+              class="form-control input-sm newService tech"
+              required
             >
               {% if nonSearch %}
               <option value="{{ technicalInfo['CutterheadID'] }}">
@@ -405,7 +422,8 @@ content %}
               style="width: 250px"
               id="hookAngleSelect"
               name="hookAngle"
-              class="form-control input-sm newService"
+              class="form-control input-sm newService tech"
+              required
             >
               {% if nonSearch %}
               <option value="{{ technicalInfo['HookAngleID'] }}">
@@ -421,7 +439,8 @@ content %}
             <select
               id="backClearanceSelect"
               name="backClearanceSelect"
-              class="form-control input-sm newService"
+              class="form-control input-sm newService tech"
+              required
             >
               {% if nonSearch %}
               <option value="{{ technicalInfo['BackClearanceID'] }}">
@@ -439,7 +458,8 @@ content %}
             <select
               id="techNumKnivesSelect"
               name="techNumKnivesSelect"
-              class="form-control input-sm newService"
+              class="form-control input-sm newService tech"
+              required
             >
               {% if nonSearch %}
               <option value="{{ technicalInfo['NumKnivesPerHeadID'] }}">
@@ -456,6 +476,9 @@ content %}
   </div>
   <button id="printBtn" class="btn-weinig-b4">Print</button>
   <button id="clearBtn" class="btn-weinig-666">Clear</button>
+  <span id="techInfoMsg" class="allMsg" style="color: red" hidden
+    >Please fill out required fields!</span
+  >
 </div>
 <script src="{{ url_for('static', filename='scripts/minimize.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/new-service.js') }}"></script>
