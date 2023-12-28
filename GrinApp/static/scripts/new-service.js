@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   e.target.getAttribute("data-id"),
                   "detailDelete"
                 );
+                e.target.parentNode.parentNode.remove();
                 fetch("/addService/loaded", {
                   method: "POST",
                   headers: {
@@ -201,7 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 });
               }
-              e.target.parentNode.parentNode.remove();
             });
             deleteCell.appendChild(deleteBtn);
             newRow.appendChild(deleteCell);
