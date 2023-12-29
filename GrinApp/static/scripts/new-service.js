@@ -52,6 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
     "NumKnivesPerHeadID",
   ];
   let notCorrect = false;
+  let intCheck =
+    /^\d{1,11}$|^\d{1,8}\.\d{3}$|^\d{1,9}\.\d{2}$|^\d{1,10}\.\d{1}$/g;
+  let numKnivesCheck = /^\d+$/g;
 
   //Takes information entered into new service and renders it into New Service table while setting the same data up in background for future insert statement
   //Sets up delete button with ability to remove itself from table and background data array
@@ -112,15 +115,34 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("One  or more fields are Blank!");
             return;
           }
+          if (i === 0 && !serviceInputs[i].value.match(intCheck)) {
+            alert("Please input a valid Quantity!");
+            return;
+          }
+          if (i === 3 && !serviceInputs[i].value.match(numKnivesCheck)) {
+            alert("Please input a valid number of knives!");
+            return;
+          }
+          if (
+            (i === 4 && serviceInputs[i].value.length > 12) ||
+            (i === 5 && serviceInputs[i].value.length > 12)
+          ) {
+            alert(
+              "Too many characters in either the length or width inputs! Character limit is 12."
+            );
+            return;
+          }
           newData.innerText = serviceInputs[i].value;
           newRow.appendChild(newData);
           newRowData.data.push(serviceInputs[i].value);
         }
       }
-      if (serviceInputs[i].type === "checkbox") {
-        serviceInputs[i].checked = false;
+    }
+    for (e = 0; e < serviceInputs.length; e++) {
+      if (serviceInputs[e].type === "checkbox") {
+        serviceInputs[e].checked = false;
       } else if (i <= 7) {
-        serviceInputs[i].value = "";
+        serviceInputs[e].value = "";
       }
     }
     renNewService[0].appendChild(newRow);
@@ -240,6 +262,11 @@ document.addEventListener("DOMContentLoaded", function () {
         notCorrect = true;
       } else {
         tech[i].style.border = "";
+      }
+      console.log(`index: ${i}, input: ${tech[i].value.match(numKnivesCheck)}`);
+      if (i === 0 && !tech[i].value.match(numKnivesCheck)) {
+        alert("Please input a valid number for Number of Templates!");
+        return;
       }
     }
     if (notCorrect) {
