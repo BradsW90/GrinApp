@@ -262,8 +262,8 @@ document.addEventListener("DOMContentLoaded", function () {
         notCorrect = true;
       } else {
         tech[i].style.border = "";
+        notCorrect = false;
       }
-      console.log(`index: ${i}, input: ${tech[i].value.match(numKnivesCheck)}`);
       if (i === 0 && !tech[i].value.match(numKnivesCheck)) {
         alert("Please input a valid number for Number of Templates!");
         return;
